@@ -11,7 +11,7 @@ importers:
       '@base-ui/react':
         specifier: ^1.0.0
         version: 1.0.0(@types/react@19.2.8)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@emurgo/cardano-serialization-lib-nodejs':
+      '@emurgo/cardano-serialization-lib-asmjs':
         specifier: 15.0.3
         version: 15.0.3
       '@fontsource-variable/inter':
@@ -434,8 +434,8 @@ packages:
   '@emnapi/wasi-threads@1.1.0':
     resolution: {integrity: sha512-WI0DdZ8xFSbgMjR1sFsKABJ/C5OnRrjT06JXbZKexJGrDuPTzZdDYfFlsgcCXCyf+suG5QU2e/y1Wo2V/OapLQ==}
 
-  '@emurgo/cardano-serialization-lib-nodejs@15.0.3':
-    resolution: {integrity: sha512-CZkAF7P3Ip3gUCAa6v93DLKp9hGqsfE6F/b3Qrqvym7rEJKi3j+dDk/OPxtmynWWGHhqXL85vzFOOwVduhLAjA==}
+  '@emurgo/cardano-serialization-lib-asmjs@15.0.3':
+    resolution: {integrity: sha512-tJGD52vJrnuYiEZVvLDFBhB3SAdNpR6qWNLl9eM12fVexrE2QYs2DrphdyCEX6BTulRn90ig79bryxmvcs3Qlw==}
 
   '@esbuild/aix-ppc64@0.27.2':
     resolution: {integrity: sha512-GZMB+a0mOMZs4MpDbj8RJp4cw+w1WV5NYD6xzgvzUJ5Ek2jerwfO2eADyI6ExDSUED+1X8aMbegahsJi+8mgpw==}
@@ -4615,7 +4615,7 @@ snapshots:
       tslib: 2.8.1
     optional: true
 
-  '@emurgo/cardano-serialization-lib-nodejs@15.0.3': {}
+  '@emurgo/cardano-serialization-lib-asmjs@15.0.3': {}
 
   '@esbuild/aix-ppc64@0.27.2':
     optional: true

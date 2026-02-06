@@ -1,6 +1,7 @@
-import type { TransactionWitnessSet } from '@emurgo/cardano-serialization-lib-nodejs';
+import type { TransactionWitnessSet } from '@emurgo/cardano-serialization-lib-asmjs';
 import { ed25519 } from '@noble/curves/ed25519.js';
 import { createServerFn } from '@tanstack/react-start';
+import { Buffer } from 'buffer';
 import type { SubmitWitness } from 'tx3-sdk/trp';
 import { z } from 'zod';
 import { protocol } from '@/lib/tx3/protocol';
@@ -13,6 +14,19 @@ const submitPaymentSchema = z.object({
 
 function hexToBytes(hex: string): Uint8Array {
 	return Buffer.from(hex, 'hex');
+}
+
+let cslPromise: Promise<typeof import('@emurgo/cardano-serialization-lib-asmjs')> | null = null;
+async function getCsl(): Promise<typeof import('@emurgo/cardano-serialization-lib-asmjs')> {
+	if (!cslPromise) {
+		cslPromise = import('@emurgo/cardano-serialization-lib-asmjs').then(async (mod) => {
+			if (typeof mod.default === 'function') {
+				await mod.default();
+			}
+			return mod;
+		});
+	}
+	return cslPromise;
 }
 
 function signTxWithMerchant(txHash: string): SubmitWitness[] {
@@ -68,11 +82,13 @@ export const submitPaymentServerFn = createServerFn({ method: 'POST' })
 	.inputValidator(submitPaymentSchema)
 	.handler(async ({ data }) => {
 		try {
-			const { TransactionWitnessSet } = await import('@emurgo/cardano-serialization-lib-nodejs');
 			const { witness_set_cbor_hex, tx_cbor_hex, tx_hash_hex } = data;
 
 			const merchantWitnesses = signTxWithMerchant(tx_hash_hex);
-			const walletWitnessSet = TransactionWitnessSet.from_bytes(hexToBytes(witness_set_cbor_hex));
+			const csl = await getCsl();
+			const walletWitnessSet = csl.TransactionWitnessSet.from_bytes(
+				hexToBytes(witness_set_cbor_hex),
+			);
 			const walletWitnesses = witnessesFromWitnessSet(walletWitnessSet);
 
 			await protocol.submit({
