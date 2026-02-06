@@ -72,13 +72,13 @@ export const submitPaymentServerFn = createServerFn({ method: 'POST' })
 
 			const merchantWitnesses = signTxWithMerchant(tx_hash_hex);
 			const walletWitnesses = witnessesFromWitnessSetCbor(witness_set_cbor_hex);
-			console.log(JSON.stringify(walletWitnesses));
+
 			await protocol.submit({
 				tx: {
 					content: tx_cbor_hex,
 					encoding: 'hex',
 				},
-				witnesses: [ ...merchantWitnesses],
+				witnesses: [ ...merchantWitnesses, ...walletWitnesses],
 			});
 
 			return {
