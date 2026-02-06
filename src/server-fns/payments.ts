@@ -1,4 +1,4 @@
-import { TransactionWitnessSet } from '@emurgo/cardano-serialization-lib-nodejs';
+import type { TransactionWitnessSet } from '@emurgo/cardano-serialization-lib-nodejs';
 import { ed25519 } from '@noble/curves/ed25519.js';
 import { createServerFn } from '@tanstack/react-start';
 import type { SubmitWitness } from 'tx3-sdk/trp';
@@ -68,6 +68,7 @@ export const submitPaymentServerFn = createServerFn({ method: 'POST' })
 	.inputValidator(submitPaymentSchema)
 	.handler(async ({ data }) => {
 		try {
+			const { TransactionWitnessSet } = await import('@emurgo/cardano-serialization-lib-nodejs');
 			const { witness_set_cbor_hex, tx_cbor_hex, tx_hash_hex } = data;
 
 			const merchantWitnesses = signTxWithMerchant(tx_hash_hex);
