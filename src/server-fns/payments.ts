@@ -51,7 +51,7 @@ function signTxWithMerchant(txHash: string): SubmitWitness[] {
 
 function witnessesFromWitnessSetCbor(witnessSetCborHex: string): SubmitWitness[] {
 	const vkeyWitnesses = decodeWitnessSetVkeys(hexToBytes(witnessSetCborHex));
-	return vkeyWitnesses.map((witness) => ({
+	return vkeyWitnesses.map(witness => ({
 		type: 'vkey',
 		key: {
 			content: bytesToHex(witness.vkey),
@@ -78,7 +78,7 @@ export const submitPaymentServerFn = createServerFn({ method: 'POST' })
 					content: tx_cbor_hex,
 					encoding: 'hex',
 				},
-				witnesses: [ ...merchantWitnesses, ...walletWitnesses],
+				witnesses: [...merchantWitnesses, ...walletWitnesses],
 			});
 
 			return {
