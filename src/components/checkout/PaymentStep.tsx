@@ -32,6 +32,7 @@ interface PaymentStepProps {
 	isLoading: boolean;
 	availableWallets: string[];
 	onWalletConnect: (walletName: string) => void;
+	onWalletDisconnect: () => void;
 	onPayment: () => void;
 	onBack: () => void;
 	error?: string | null;
@@ -71,6 +72,7 @@ function PaymentStepComponent({
 	isLoading,
 	availableWallets,
 	onWalletConnect,
+	onWalletDisconnect,
 	onPayment,
 	onBack,
 	error,
@@ -98,13 +100,24 @@ function PaymentStepComponent({
 
 			{/* Step 1: Wallet Connection */}
 			<div className="bg-white border rounded-lg p-6">
-				<h3 className="font-semibold mb-4">Step 1: Connect Your Wallet</h3>
+				<h3 className="font-semibold mb-4">Connect Your Wallet</h3>
 				<div className="space-y-4">
 					{isConnected ? (
 						<div className="p-4 bg-green-50 border border-green-200 rounded-lg">
-							<div className="flex items-center space-x-2">
-								<IconCheck className="w-5 h-5 text-green-600" />
-								<span className="text-green-800 font-medium">Wallet Connected</span>
+							<div className="flex items-center justify-between gap-2">
+								<div className="flex items-center space-x-2">
+									<IconCheck className="w-5 h-5 text-green-600" />
+									<span className="text-green-800 font-medium">Wallet Connected</span>
+								</div>
+								<Button
+									variant="link"
+									size="sm"
+									onClick={onWalletDisconnect}
+									disabled={isLoading}
+									className="text-green-700"
+								>
+									Change wallet
+								</Button>
 							</div>
 						</div>
 					) : (
@@ -146,7 +159,7 @@ function PaymentStepComponent({
 			{isConnected && (
 				<>
 					<div className="bg-white border rounded-lg p-6">
-						<h3 className="font-semibold mb-4">Step 2: Payment Details</h3>
+						<h3 className="font-semibold mb-4">Payment Details</h3>
 
 						{hasMultiplePayments && !hasStartedPayments && (
 							<div className="mb-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
